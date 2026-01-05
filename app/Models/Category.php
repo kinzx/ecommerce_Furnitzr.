@@ -2,15 +2,19 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Category extends Model
 {
-    // Izinkan semua kolom diisi (termasuk name dan slug)
-    protected $guarded = [];
+    use HasFactory;
 
-    // Relasi: Satu Kategori punya banyak Produk
+    // Izinkan semua kolom diisi
+    protected $guarded = ['id'];
+
+    // Relasi kebalikan (1 Kategori punya banyak Produk)
+    // Ini berguna jika nanti Anda ingin menghitung jumlah produk per kategori
     public function products(): HasMany
     {
         return $this->hasMany(Product::class);
