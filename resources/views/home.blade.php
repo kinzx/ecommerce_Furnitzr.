@@ -1,38 +1,7 @@
 <x-app-layout>
 
     {{-- NAVBAR --}}
-    <nav class="px-6 py-6 mx-auto max-w-7xl flex justify-between items-center">
-        {{-- Ganti Logo Text --}}
-        <a href="/" class="text-3xl font-bold tracking-tighter">Furnitzr.</a>
-
-        <div class="flex items-center space-x-6 text-sm font-medium">
-            @if (Route::has('login'))
-                @auth
-                    <span class="hidden md:inline text-gray-600">Hi, {{ Auth::user()->name }}</span>
-                    <a href="{{ url('/dashboard') }}"
-                        class="bg-black text-white px-4 py-2 rounded-full hover:bg-gray-800 transition">Dashboard</a>
-                    <form method="POST" action="{{ route('logout') }}" class="inline">
-                        @csrf
-                        <button type="submit" class="hover:text-red-600 ml-2">Log Out</button>
-                    </form>
-                @else
-                    <a href="{{ route('login') }}" class="hover:text-gray-600">Login</a>
-                    @if (Route::has('register'))
-                        <a href="{{ route('register') }}"
-                            class="border border-black px-5 py-2 hover:bg-black hover:text-white transition rounded-full">Register</a>
-                    @endif
-                @endauth
-            @endif
-
-            <button class="p-2 hover:bg-gray-200 rounded-full transition">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007z" />
-                </svg>
-            </button>
-        </div>
-    </nav>
+    
 
     {{-- HERO SECTION --}}
     <header class="px-6 py-12 mx-auto max-w-7xl lg:py-24">

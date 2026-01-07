@@ -16,7 +16,7 @@
 {{-- Kita ganti bg-gray-100 jadi warna cream sesuai desain, dan text default jadi agak hitam --}}
 
 <body class="font-sans antialiased bg-[#F9F5F0] text-[#1a1a1a]">
-
+    @include('layouts.navigation')
     <div class="min-h-screen">
         <main>
             {{ $slot }}

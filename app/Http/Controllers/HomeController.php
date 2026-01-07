@@ -13,4 +13,13 @@ class HomeController extends Controller
 
         return view('home', compact('products'));
     }
+
+    public function details($id)
+    {
+        // Cari produk berdasarkan ID, jika tidak ketemu tampilkan 404
+        $product = Product::findOrFail($id);
+
+        // Kirim data produk ke view 'details'
+        return view('details', compact('product'));
+    }
 }
