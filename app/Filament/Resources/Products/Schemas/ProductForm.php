@@ -27,7 +27,11 @@ class ProductForm
                     ->required()
                     ->columnSpanFull(),
                 FileUpload::make('image')
-                    ->image(),
+                    ->label('Gambar Produk')
+                    ->disk('public')        // <--- TAMBAHKAN INI (PENTING!)
+                    ->directory('products') // Folder penyimpanan
+                    ->visibility('public')  // Pastikan bisa dilihat umum
+                    ->required(),
             ]);
     }
 }
