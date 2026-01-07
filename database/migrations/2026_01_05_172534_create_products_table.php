@@ -8,21 +8,18 @@ return new class extends Migration {
     /**
      * Run the migrations.
      */
+    // database/migrations/xxxx_create_products_table.php
     public function up(): void
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-
-            // Relasi ke Kategori
-            $table->foreignId('category_id')->constrained('categories')->cascadeOnDelete();
-
             $table->string('name');
-            $table->string('slug')->unique();
-            $table->integer('price');
-            $table->integer('stock')->default(0);
-            $table->text('description')->nullable();
-            $table->string('image')->nullable(); // Untuk gambar produk
-            $table->boolean('is_active')->default(true); // AGAR TIDAK ERROR DI HOME
+            // Ini kuncinya: foreignId menghubungkan produk ke kategori
+            $table->foreignId('category_id')->constrained()->cascadeOnDelete();
+            $table->decimal('price', 15, 2);
+            $table->text('description');
+            $table->string('image')->nullable();
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }
