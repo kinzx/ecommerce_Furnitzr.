@@ -92,7 +92,8 @@
                     <div class="group cursor-pointer">
                         <div class="relative bg-white aspect-[4/3] overflow-hidden rounded-lg mb-4 shadow-sm">
                             <img src="{{ Storage::url($product->image) }}"
-                                class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                                class="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                                alt="{{ $product->name }}">
                             <div
                                 class="absolute bottom-4 right-4 translate-y-10 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition duration-300">
                                 <button class="bg-black text-white p-3 rounded-full shadow-lg">
@@ -115,7 +116,7 @@
         </div>
     </section>
 
-    
+
     <section class="px-6 py-16 mx-auto max-w-7xl">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
             <div class="lg:col-span-4 self-center">
