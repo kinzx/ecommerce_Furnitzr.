@@ -1,7 +1,7 @@
 <x-app-layout>
 
     {{-- NAVBAR --}}
-    
+
 
     {{-- HERO SECTION --}}
     <header class="px-6 py-12 mx-auto max-w-7xl lg:py-24">
@@ -58,14 +58,22 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
             @if (isset($products))
                 @foreach ($products as $product)
-                    <div class="group cursor-pointer">
+                    <div class="group"> {{-- Container Utama --}}
+
                         <div class="relative bg-white aspect-[4/3] overflow-hidden rounded-lg mb-4 shadow-sm">
-                            <img src="{{ Storage::url($product->image) }}"
-                                class="w-full h-full object-cover group-hover:scale-105 transition duration-500"
-                                alt="{{ $product->name }}">
+
+                            {{-- 1. LINK PADA GAMBAR (Agar gambar bisa diklik) --}}
+                            <a href="{{ route('product.details', $product->id) }}">
+                                <img src="{{ Storage::url($product->image) }}"
+                                    class="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                                    alt="{{ $product->name }}">
+                            </a>
+
+                            {{-- Tombol Add to Cart (Tetap di sini, jangan dibungkus link agar fungsinya tidak bentrok) --}}
                             <div
                                 class="absolute bottom-4 right-4 translate-y-10 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition duration-300">
-                                <button class="bg-black text-white p-3 rounded-full shadow-lg">
+                                <button
+                                    class="bg-black text-white p-3 rounded-full shadow-lg hover:bg-gray-800 transition">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -74,8 +82,15 @@
                                 </button>
                             </div>
                         </div>
+
                         <div>
-                            <h3 class="font-bold text-lg text-gray-900">{{ $product->name }}</h3>
+                            {{-- 2. LINK PADA JUDUL (Agar teks judul bisa diklik) --}}
+                            <a href="{{ route('product.details', $product->id) }}">
+                                <h3 class="font-bold text-lg text-gray-900 hover:text-gray-600 transition">
+                                    {{ $product->name }}
+                                </h3>
+                            </a>
+
                             <p class="text-sm text-gray-500 mt-1">{{ $product->category->name ?? 'Furniture' }}</p>
                             <p class="font-semibold mt-2">Rp {{ number_format($product->price, 0, ',', '.') }}</p>
                         </div>

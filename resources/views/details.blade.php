@@ -13,23 +13,24 @@
                 {{-- KOLOM KIRI: GAMBAR --}}
                 <div class="space-y-4">
                     <div class="aspect-[4/3] w-full overflow-hidden rounded-xl bg-gray-100">
-                        <img src="{{ Storage::url($product->image) }}"
-                             alt="{{ $product->name }}"
-                             class="w-full h-full object-cover">
+                        <img src="{{ Storage::url($product->image) }}" alt="{{ $product->name }}"
+                            class="w-full h-full object-cover">
                     </div>
 
                     {{-- Thumbnail Kecil (Opsional/Hiasan) --}}
                     <div class="grid grid-cols-4 gap-4">
-                        <div class="aspect-square rounded-lg bg-gray-100 overflow-hidden cursor-pointer border-2 border-black">
+                        <div
+                            class="aspect-square rounded-lg bg-gray-100 overflow-hidden cursor-pointer border-2 border-black">
                             <img src="{{ Storage::url($product->image) }}" class="w-full h-full object-cover">
                         </div>
-                        </div>
+                    </div>
                 </div>
 
                 {{-- KOLOM KANAN: INFORMASI --}}
                 <div>
                     <h1 class="text-3xl font-bold text-gray-900">{{ $product->name }}</h1>
-                    <p class="text-xl font-medium text-gray-900 mt-2">Rp {{ number_format($product->price, 0, ',', '.') }}</p>
+                    <p class="text-xl font-medium text-gray-900 mt-2">Rp
+                        {{ number_format($product->price, 0, ',', '.') }}</p>
 
                     {{-- Deskripsi --}}
                     <div class="mt-6">
@@ -43,28 +44,48 @@
                     <div class="mt-6">
                         <h3 class="text-sm font-medium text-gray-900">Color</h3>
                         <div class="flex items-center space-x-3 mt-2">
-                            <button class="w-8 h-8 rounded-full bg-gray-200 border border-gray-300 focus:ring-2 ring-offset-1 ring-gray-900"></button>
-                            <button class="w-8 h-8 rounded-full bg-stone-700 focus:ring-2 ring-offset-1 ring-gray-900"></button>
-                            <button class="w-8 h-8 rounded-full bg-amber-700 focus:ring-2 ring-offset-1 ring-gray-900"></button>
+                            <button
+                                class="w-8 h-8 rounded-full bg-gray-200 border border-gray-300 focus:ring-2 ring-offset-1 ring-gray-900"></button>
+                            <button
+                                class="w-8 h-8 rounded-full bg-stone-700 focus:ring-2 ring-offset-1 ring-gray-900"></button>
+                            <button
+                                class="w-8 h-8 rounded-full bg-amber-700 focus:ring-2 ring-offset-1 ring-gray-900"></button>
                         </div>
                     </div>
 
                     {{-- Quantity & Actions --}}
-                    <div class="mt-8 flex flex-col sm:flex-row gap-4">
-                        {{-- Input Quantity --}}
-                        <div class="flex items-center border border-gray-300 rounded-lg w-fit">
-                            <button class="px-3 py-2 text-gray-600 hover:bg-gray-100">-</button>
-                            <span class="px-3 py-2 text-gray-900 font-medium">1</span>
-                            <button class="px-3 py-2 text-gray-600 hover:bg-gray-100">+</button>
-                        </div>
+                    <div x-data="{ count: 1 }" class="mt-8">
 
-                        {{-- Tombol Aksi --}}
-                        <button class="flex-1 bg-white border border-gray-300 text-gray-900 py-3 rounded-full font-medium hover:bg-gray-50 transition">
-                            Add to Cart
-                        </button>
-                        <button class="flex-1 bg-black text-white py-3 rounded-full font-medium hover:bg-gray-800 transition shadow-lg">
-                            Buy Now
-                        </button>
+                        {{-- FORM PEMBUNGKUS --}}
+                        <form action="{{ route('cart.add', $product->id) }}" method="POST"
+                            class="flex flex-col sm:flex-row gap-4">
+                            @csrf
+
+                            {{-- INPUT TERSEMBUNYI: Ini cara mengirim nilai Alpine 'count' ke Laravel --}}
+                            <input type="hidden" name="quantity" :value="count">
+
+                            {{-- UI Quantity (Alpine JS) --}}
+                            <div class="flex items-center border border-gray-300 rounded-lg w-fit">
+                                <button type="button" @click="count > 1 ? count-- : count = 1"
+                                    class="px-3 py-2 text-gray-600 hover:bg-gray-100 font-bold">-</button>
+                                <span x-text="count"
+                                    class="px-3 py-2 text-gray-900 font-medium w-12 text-center">1</span>
+                                <button type="button" @click="count++"
+                                    class="px-3 py-2 text-gray-600 hover:bg-gray-100 font-bold">+</button>
+                            </div>
+
+                            {{-- Tombol Add to Cart (Type = 'add') --}}
+                            <button type="submit" name="type" value="add"
+                                class="flex-1 bg-white border border-gray-300 text-gray-900 py-3 rounded-full font-medium hover:bg-gray-50 transition">
+                                Add to Cart
+                            </button>
+
+                            {{-- Tombol Buy Now (Type = 'buy_now') --}}
+                            <button type="submit" name="type" value="buy_now"
+                                class="flex-1 bg-black text-white py-3 rounded-full font-medium hover:bg-gray-800 transition shadow-lg">
+                                Buy Now
+                            </button>
+                        </form>
                     </div>
 
                     {{-- Info Pengiriman (Statis sesuai desain) --}}
