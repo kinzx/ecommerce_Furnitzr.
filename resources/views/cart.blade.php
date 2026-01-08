@@ -124,10 +124,10 @@
                             </div>
                         </div>
 
-                        <button
-                            class="w-full bg-[#FFD700] text-black font-bold py-4 rounded-xl hover:bg-yellow-400 transition shadow-lg mt-4">
+                        <a href="{{ route('checkout.process') }}"
+                            class="block w-full text-center bg-[#FFD700] text-black font-bold py-4 rounded-xl hover:bg-yellow-400 transition shadow-lg mt-4">
                             Proceed to checkout
-                        </button>
+                        </a>
                     </div>
                 </div>
 
