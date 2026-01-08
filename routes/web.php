@@ -3,8 +3,8 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\CartController; // <--- Pastikan CartController di-import
-
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\SocialiteController;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/dashboard', function () {
@@ -37,6 +37,10 @@ Route::middleware('auth')->group(function () {
     })->name('checkout');
 });
 
+
+// Route untuk Google SSO
+Route::get('/auth/google', [SocialiteController::class, 'redirect'])->name('google.login');
+Route::get('/auth/google/callback', [SocialiteController::class, 'callback'])->name('google.callback');
 Route::get('/product/{id}', [HomeController::class, 'details'])->name('product.details');
 
 require __DIR__ . '/auth.php';
