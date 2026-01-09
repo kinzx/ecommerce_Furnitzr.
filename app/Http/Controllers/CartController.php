@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Cart;
 use App\Models\Product;
-use App\Models\Order;            // <--- WAJIB ADA (Untuk simpan order)
+use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Midtrans\Config;             // <--- WAJIB ADA (Untuk setting Midtrans)
+use Midtrans\Config;
 use Midtrans\Snap;
+use Midtrans\Transaction; // <--- TAMBAHKAN BARIS INI
+
 class CartController extends Controller
 {
     // Menampilkan Halaman Cart
@@ -108,9 +110,13 @@ class CartController extends Controller
         Config::$is3ds = config('midtrans.is_3ds');
 
         // 5. Siapkan Parameter untuk Midtrans
+        // 5. Siapkan Parameter untuk Midtrans
+        // Buat ID unik dulu & simpan di variabel agar bisa kita simpan ke database juga
+        $customOrderId = 'ORDER-' . $order->id . '-' . time();
+
         $params = [
             'transaction_details' => [
-                'order_id' => $order->id . '-' . time(), // ID Unik (tambah time agar tidak duplikat saat tes)
+                'order_id' => $customOrderId, // Gunakan variabel tadi
                 'gross_amount' => (int) $total,
             ],
             'customer_details' => [
@@ -122,8 +128,9 @@ class CartController extends Controller
         // 6. Minta Snap Token
         $snapToken = Snap::getSnapToken($params);
 
-        // 7. Simpan Snap Token ke Database
+        // 7. Simpan Snap Token DAN ID Midtrans ke Database
         $order->snap_token = $snapToken;
+        $order->midtrans_order_id = $customOrderId; // <--- PENTING: Simpan ID panjang ini
         $order->save();
 
         // 8. Hapus Keranjang (Opsional, biasanya dihapus setelah bayar sukses, tapi untuk simpel hapus skrg)
@@ -136,8 +143,40 @@ class CartController extends Controller
     // Tambahkan method ini di paling bawah CartController
     public function history()
     {
-        // Ambil data order milik user, urutkan dari yang terbaru
-        $orders = \App\Models\Order::where('user_id', Auth::id())
+        // 1. Setting Konfigurasi Midtrans (Wajib agar bisa cek status)
+        Config::$serverKey = config('midtrans.server_key');
+        Config::$isProduction = config('midtrans.is_production');
+        Config::$isSanitized = config('midtrans.is_sanitized');
+        Config::$is3ds = config('midtrans.is_3ds');
+
+        // 2. LOGIKA CEK STATUS OTOMATIS
+        // Ambil order yang statusnya masih 'pending' atau 'unpaid' milik user ini
+        $pendingOrders = Order::where('user_id', Auth::id())
+            ->whereIn('status', ['unpaid', 'pending'])
+            ->whereNotNull('midtrans_order_id') // Pastikan ada ID Midtrans-nya
+            ->get();
+
+        foreach ($pendingOrders as $order) {
+            try {
+                // Cek status langsung ke server Midtrans
+                $status = Transaction::status($order->midtrans_order_id);
+
+                // Update database kita sesuai balasan Midtrans
+                if ($status->transaction_status == 'settlement' || $status->transaction_status == 'capture') {
+                    $order->update(['status' => 'paid']);
+                } else if ($status->transaction_status == 'expire') {
+                    $order->update(['status' => 'failed']);
+                } else if ($status->transaction_status == 'cancel') {
+                    $order->update(['status' => 'canceled']);
+                }
+            } catch (\Exception $e) {
+                // Jika error (misal ID tidak ditemukan di Midtrans), lanjut ke order berikutnya
+                continue;
+            }
+        }
+
+        // 3. Ambil Data Terbaru (Setelah di-update otomatis di atas)
+        $orders = Order::where('user_id', Auth::id())
             ->orderBy('created_at', 'desc')
             ->get();
 

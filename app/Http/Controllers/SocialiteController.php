@@ -49,6 +49,7 @@ class SocialiteController extends Controller
                 return redirect()->intended('/');
             }
 
+            
         } catch (\Exception $e) {
             // Jika error (misal user cancel), kembalikan ke login
             return redirect()->route('login')->with('error', 'Login Google gagal, silakan coba lagi.');
