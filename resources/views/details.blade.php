@@ -40,19 +40,6 @@
                         </p>
                     </div>
 
-                    {{-- Pilihan Warna (Visual Saja) --}}
-                    <div class="mt-6">
-                        <h3 class="text-sm font-medium text-gray-900">Color</h3>
-                        <div class="flex items-center space-x-3 mt-2">
-                            <button
-                                class="w-8 h-8 rounded-full bg-gray-200 border border-gray-300 focus:ring-2 ring-offset-1 ring-gray-900"></button>
-                            <button
-                                class="w-8 h-8 rounded-full bg-stone-700 focus:ring-2 ring-offset-1 ring-gray-900"></button>
-                            <button
-                                class="w-8 h-8 rounded-full bg-amber-700 focus:ring-2 ring-offset-1 ring-gray-900"></button>
-                        </div>
-                    </div>
-
                     {{-- Quantity & Actions --}}
                     <div x-data="{ count: 1 }" class="mt-8">
 

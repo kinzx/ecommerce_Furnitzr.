@@ -1,5 +1,32 @@
 <x-app-layout>
     <div class="py-12">
+        {{-- Header Steps (Visual Indikator Tahap 2) --}}
+        <div class="flex justify-center mb-10">
+            <div class="bg-white px-8 py-3 rounded-full shadow-sm flex items-center space-x-4">
+
+                {{-- Step 1: Cart (Sudah Lewat) --}}
+                <span class="font-medium text-black flex items-center gap-2">
+                    <span
+                        class="bg-black text-white w-6 h-6 rounded-full flex items-center justify-center text-xs">1</span>
+                    Cart
+                </span>
+
+                <span class="text-gray-300">----------</span>
+
+                {{-- Step 2: Checkout (SEDANG AKTIF) --}}
+                <span class="font-bold text-black flex items-center gap-2">
+                    <span
+                        class="bg-black text-white w-6 h-6 rounded-full flex items-center justify-center text-xs">2</span>
+                    Checkout
+                </span>
+
+                <span class="text-gray-300">----------</span>
+
+                {{-- Step 3: Order (Belum) --}}
+                <span class="text-gray-400">Order</span>
+            </div>
+        </div>
+
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="bg-white p-6 rounded-2xl shadow-sm text-center">
                 <h2 class="text-2xl font-bold mb-4">Payment Confirmation</h2>
@@ -25,7 +52,7 @@
                 onSuccess: function(result) {
                     /* You may add your own implementation here */
                     alert("payment success!");
-                    window.location.href = '/dashboard'; // Redirect kemana setelah sukses
+                    window.location.href = '/orders'; // Redirect kemana setelah sukses
                 },
                 onPending: function(result) {
                     /* You may add your own implementation here */

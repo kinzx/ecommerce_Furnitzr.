@@ -39,6 +39,8 @@ Route::middleware('auth')->group(function () {
     // Letakkan di sini, menggantikan kode dummy sebelumnya
     Route::get('/checkout-process', [CartController::class, 'checkout'])->name('checkout.process');
 
+    // Route untuk melihat riwayat pesanan (Step 3)
+    Route::get('/orders', [CartController::class, 'history'])->name('orders.history');
 });
 
 require __DIR__ . '/auth.php';
