@@ -33,7 +33,7 @@ class SocialiteController extends Controller
                 ]);
 
                 Auth::login($user);
-                return redirect()->intended('/dashboard'); // Atau ke Home
+                return redirect()->intended('/'); // Atau ke Home
 
             } else {
                 // Jika email belum ada, buat user baru (Register otomatis)
@@ -46,7 +46,7 @@ class SocialiteController extends Controller
                 ]);
 
                 Auth::login($newUser);
-                return redirect()->intended('/dashboard');
+                return redirect()->intended('/');
             }
 
         } catch (\Exception $e) {

@@ -1,122 +1,162 @@
-# E-Commerce X
+# Furnitzr - Modern Furniture E-Commerce
 
-Aplikasi E-Commerce modern yang dibangun dengan Laravel, Filament, dan Tailwind CSS. Proyek ini mencakup fungsionalitas e-commerce penting seperti manajemen produk, keranjang belanja, dan integrasi pembayaran.
+Aplikasi E-Commerce furnitur modern yang dibangun dengan **Laravel 11**, **Filament PHP**, dan **Tailwind CSS**. Proyek ini mencakup fungsionalitas e-commerce lengkap mulai dari manajemen produk, keranjang belanja dinamis, hingga integrasi pembayaran real-time.
 
-## Fitur Utama
+## 🚀 Fitur Utama
 
--   **Panel Admin Keren**: Manajemen produk, kategori, dan pesanan dengan mudah menggunakan [Filament](https://filamentphp.com/).
--   **Otentikasi Fleksibel**: Sistem registrasi dan login standar, serta opsi login menggunakan akun Google (Socialite).
--   **Gateway Pembayaran**: Integrasi dengan [Midtrans](https://midtrans.com/) untuk memproses pembayaran.
--   **Desain Responsif**: Antarmuka yang dibuat dengan [Tailwind CSS](https://tailwindcss.com/) agar terlihat bagus di semua perangkat.
--   **Keranjang Belanja**: Fungsionalitas keranjang belanja penuh untuk pengguna.
+### 🛒 Pengalaman Belanja (User Client)
+-   **Desain Modern & Responsif**: Antarmuka utama dibangun dengan **Tailwind CSS** yang bersih dan responsif.
+-   **Dynamic Shopping Cart**: Tambah, update jumlah, dan hapus barang dengan mulus.
+-   **Direct Checkout Flow**:
+    -   **Add to Cart**: Masukkan barang ke keranjang untuk dibayar nanti.
+    -   **Buy Now**: Fitur beli langsung (skip keranjang) menuju halaman pembayaran.
+-   **Visual Checkout Steps**: Indikator langkah visual (Cart > Checkout > Order History) untuk memandu pengguna.
+-   **Riwayat Pesanan (My Orders)**: Halaman khusus bagi user untuk melihat status pesanan mereka (Pending, Success, Failed) dengan indikator warna.
 
-## Teknologi yang Digunakan
+### 💳 Pembayaran & Transaksi
+-   **Midtrans Gateway**: Integrasi penuh dengan **Midtrans Snap (Popup)**.
+-   **Dukungan Metode Pembayaran**: Mendukung Transfer Bank, E-Wallet (GoPay/QRIS), dan Kartu Kredit (via Sandbox/Production).
+-   **Status Mapping**: Sinkronisasi status pesanan otomatis (Settlement, Pending, Expire) pada tampilan user.
 
--   [Laravel](https://laravel.com/)
--   [Filament](https://filamentphp.com/)
--   [Tailwind CSS](https://tailwindcss.com/)
--   [Vite](https://vitejs.dev/)
--   [MySQL](https://www.mysql.com/)
+### 🔐 Otentikasi & Keamanan
+-   **Google Single Sign-On (SSO)**: Login cepat menggunakan akun Google (Laravel Socialite).
+-   **Custom Split-Screen UI**: Halaman Login dan Register yang dikustomisasi menggunakan **Bootstrap 5** dengan desain Split-Screen (Gambar & Form) yang estetis.
+-   **Role Based Access**: Pemisahan hak akses antara User biasa dan Admin.
+
+### ⚙️ Panel Admin (Back-End)
+-   **Filament PHP Dashboard**: Panel admin yang powerful untuk mengelola data.
+-   **Manajemen Produk**: Upload gambar, set harga, stok, dan deskripsi.
+-   **Manajemen Kategori**: Pengelompokan produk.
 
 ---
 
-## Panduan Instalasi dan Penggunaan
+## 🛠️ Teknologi yang Digunakan
 
-Berikut adalah langkah-langkah untuk menginstal dan menjalankan proyek ini di lingkungan pengembangan lokal.
+-   **Backend**: [Laravel 11](https://laravel.com/)
+-   **Admin Panel**: [Filament PHP v3](https://filamentphp.com/)
+-   **Frontend Styling**:
+    -   [Tailwind CSS](https://tailwindcss.com/) (Halaman Utama)
+    -   [Bootstrap 5](https://getbootstrap.com/) (Halaman Auth Login/Register)
+-   **Interaktivitas**: [Alpine.js](https://alpinejs.dev/)
+-   **Payment Gateway**: [Midtrans](https://midtrans.com/)
+-   **Database**: MySQL
+
+---
+
+## 📸 Screenshots (Preview)
+
+| Halaman Depan | Detail Produk |
+|:---:|:---:|
+| *(Masukkan screenshot Home)* | *(Masukkan screenshot Produk)* |
+
+| Checkout & Payment | Order History |
+|:---:|:---:|
+| *(Masukkan screenshot Checkout)* | *(Masukkan screenshot My Orders)* |
+
+| Custom Login UI | Admin Dashboard |
+|:---:|:---:|
+| *(Masukkan screenshot Login)* | *(Masukkan screenshot Filament)* |
+
+---
+
+## 📦 Panduan Instalasi
+
+Ikuti langkah-langkah berikut untuk menjalankan proyek di komputer lokal Anda.
 
 ### Prasyarat
-
-Pastikan perangkat Anda sudah terinstal:
 -   PHP >= 8.2
 -   Composer
 -   Node.js & NPM
--   Database (misalnya MySQL, MariaDB)
+-   MySQL
 
-### Langkah-langkah Instalasi
+### Langkah Instalasi
 
 1.  **Clone Repositori**
     ```bash
-    git clone https://github.com/username/nama-repositori.git
-    cd nama-repositori
+    git clone [https://github.com/username/furnitzr.git](https://github.com/username/furnitzr.git)
+    cd furnitzr
     ```
-    *(Ganti `username/nama-repositori` dengan URL repositori Anda)*
 
-2.  **Instal Dependensi PHP**
+2.  **Instal Dependensi**
     ```bash
     composer install
-    ```
-
-3.  **Instal Dependensi JavaScript**
-    ```bash
     npm install
     ```
 
-4.  **Buat File Environment**
+3.  **Setup Environment**
     Salin file `.env.example` menjadi `.env`.
     ```bash
     cp .env.example .env
     ```
 
-5.  **Generate Kunci Aplikasi**
+4.  **Generate Key**
     ```bash
     php artisan key:generate
     ```
 
-6.  **Konfigurasi File `.env`**
-    Buka file `.env` dan sesuaikan konfigurasi berikut:
+5.  **Konfigurasi Database & API Keys**
+    Buka file `.env` dan isi konfigurasi berikut:
 
-    -   **Koneksi Database**:
-        ```
-        DB_CONNECTION=mysql
-        DB_HOST=127.0.0.1
-        DB_PORT=3306
-        DB_DATABASE=nama_database_anda
-        DB_USERNAME=user_database_anda
-        DB_PASSWORD=password_database_anda
-        ```
+    ```env
+    # Database
+    DB_CONNECTION=mysql
+    DB_HOST=127.0.0.1
+    DB_PORT=3306
+    DB_DATABASE=ecommerce_x
+    DB_USERNAME=root
+    DB_PASSWORD=
 
-    -   **URL Aplikasi**:
-        ```
-        APP_URL=http://localhost:8000
-        ```
+    # Google Socialite (Login Google)
+    GOOGLE_CLIENT_ID=masukkan_client_id_google_anda
+    GOOGLE_CLIENT_SECRET=masukkan_client_secret_google_anda
+    GOOGLE_REDIRECT_URI=[http://127.0.0.1:8000/auth/google/callback](http://127.0.0.1:8000/auth/google/callback)
 
-    -   **Kredensial Google (untuk Socialite)**:
-        ```
-        GOOGLE_CLIENT_ID=ID_CLIENT_GOOGLE_ANDA
-        GOOGLE_CLIENT_SECRET=RAHASIA_CLIENT_GOOGLE_ANDA
-        GOOGLE_REDIRECT_URI=${APP_URL}/auth/google/callback
-        ```
-
-    -   **Kredensial Midtrans**:
-        ```
-        MIDTRANS_MERCHANT_ID=ID_MERCHANT_MIDTRANS_ANDA
-        MIDTRANS_CLIENT_KEY=KUNCI_CLIENT_MIDTRANS_ANDA
-        MIDTRANS_SERVER_KEY=KUNCI_SERVER_MIDTRANS_ANDA
-        ```
-
-7.  **Jalankan Migrasi dan Seeder Database**
-    Perintah ini akan membuat semua tabel database yang diperlukan dan mengisinya dengan data awal (jika ada seeder).
-    ```bash
-    php artisan migrate --seed
+    # Midtrans (Payment Gateway)
+    # Pastikan menggunakan kunci SANDBOX jika masih testing (awalan SB-)
+    MIDTRANS_SERVER_KEY=SB-Mid-server-xxxxxxxxxxxx
+    MIDTRANS_CLIENT_KEY=SB-Mid-client-xxxxxxxxxxxx
+    MIDTRANS_IS_PRODUCTION=false
     ```
 
-8.  **Buat Akun Admin**
-    Untuk mengakses panel admin Filament, buat pengguna admin pertama Anda dengan menjalankan perintah berikut dan ikuti petunjuknya:
+6.  **Migrasi Database**
+    ```bash
+    php artisan migrate
+    ```
+
+7.  **Buat Akun Admin Filament**
     ```bash
     php artisan make:filament-user
     ```
 
-9.  **Build Aset Frontend**
-    ```bash
-    npm run build
-    ```
-
-10. **Jalankan Server Pengembangan**
+8.  **Jalankan Aplikasi**
+    Buka dua terminal berbeda:
+    
+    *Terminal 1 (Backend):*
     ```bash
     php artisan serve
     ```
+    
+    *Terminal 2 (Frontend Build):*
+    ```bash
+    npm run dev
+    ```
 
-### Mengakses Aplikasi
+### Akses Aplikasi
+-   **Toko Online**: [http://127.0.0.1:8000](http://127.0.0.1:8000)
+-   **Admin Panel**: [http://127.0.0.1:8000/admin](http://127.0.0.1:8000/admin)
 
--   **Aplikasi Utama**: Buka [http://localhost:8000](http://localhost:8000) di browser Anda.
--   **Panel Admin**: Buka [http://localhost:8000/admin](http://localhost:8000/admin) dan login menggunakan akun admin yang Anda buat pada langkah 8.
+---
+
+## 🧪 Testing Pembayaran (Sandbox)
+
+Karena mode **Sandbox** aktif, Anda tidak perlu menggunakan uang asli.
+1.  Pilih produk -> Checkout.
+2.  Klik **Pay Now via Midtrans**.
+3.  Pilih **BCA KlikPay** (untuk sukses instan) atau **Bank Transfer > BNI** (gunakan simulator).
+4.  Cek status di halaman **Order History**.
+
+---
+
+## 📄 Lisensi
+
+Proyek ini bersifat open-source di bawah lisensi [MIT license](https://opensource.org/licenses/MIT).
